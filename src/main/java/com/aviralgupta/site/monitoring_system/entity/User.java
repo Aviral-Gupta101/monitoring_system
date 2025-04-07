@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "users")
@@ -24,4 +25,13 @@ public class User {
     @Column(nullable = false)
     @NonNull
     private String password;
+
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+    }
+
 }

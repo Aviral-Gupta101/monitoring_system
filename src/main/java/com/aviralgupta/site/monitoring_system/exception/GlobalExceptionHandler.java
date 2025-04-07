@@ -16,6 +16,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> exceptionHandler(Exception e){
+        log.error("Exception: ", e);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("message", e.getMessage()));
     }
 
@@ -26,7 +27,6 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(UserAlreadyExistsException.class)
     public ResponseEntity<?> userAlreadyExistsExceptionHandler(UserAlreadyExistsException e){
-        log.error("Exception: ", e);
         return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("message", e.getMessage()));
     }
 
