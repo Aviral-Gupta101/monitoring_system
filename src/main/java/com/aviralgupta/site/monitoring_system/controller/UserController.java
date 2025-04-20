@@ -36,19 +36,19 @@ public class UserController {
     }
 
     @DeleteMapping("/monitor/delete/{id}")
-    public ResponseEntity<?> createMonitor(@PathVariable int id){
+    public ResponseEntity<?> createMonitor(@PathVariable String id){
         userService.deleteMonitor(id);
         return ResponseEntity.ok(Map.of("message", "Monitor Deleted"));
     }
 
     @PatchMapping("/monitor/enable/{id}")
-    public ResponseEntity<?> enableMonitor(@PathVariable int id){
+    public ResponseEntity<?> enableMonitor(@PathVariable String id){
         userService.enableMonitor(id);
         return ResponseEntity.ok(Map.of("message", "Monitor enabled"));
     }
 
     @PatchMapping("/monitor/disable/{id}")
-    public ResponseEntity<?> disableMonitor(@PathVariable int id){
+    public ResponseEntity<?> disableMonitor(@PathVariable String id){
         userService.disableMonitor(id);
         return ResponseEntity.ok(Map.of("message", "Monitor disabled"));
     }

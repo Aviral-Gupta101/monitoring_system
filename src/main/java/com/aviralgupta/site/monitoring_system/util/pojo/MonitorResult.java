@@ -14,7 +14,7 @@ public class MonitorResult {
 
     @NonNull
     @NotBlank
-    private String userId;
+    private Integer userId;
 
     @NonNull
     @NotBlank

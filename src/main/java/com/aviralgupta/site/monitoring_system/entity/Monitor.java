@@ -17,8 +17,7 @@ import java.time.LocalDateTime;
 public class Monitor {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private String id;
 
     @ManyToOne
     @JsonBackReference

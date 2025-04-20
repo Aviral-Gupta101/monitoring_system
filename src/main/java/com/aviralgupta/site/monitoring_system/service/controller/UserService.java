@@ -6,11 +6,10 @@ import com.aviralgupta.site.monitoring_system.entity.User;
 import com.aviralgupta.site.monitoring_system.exception.custom_exceptions.NotFoundException;
 import com.aviralgupta.site.monitoring_system.repo.MonitorRepo;
 import com.aviralgupta.site.monitoring_system.repo.UserRepo;
+import com.aviralgupta.site.monitoring_system.service.monitors.MonitorService;
 import com.aviralgupta.site.monitoring_system.util.GetPrincipalUser;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -20,13 +19,13 @@ public class UserService {
 
     private final UserRepo userRepo;
     private final MonitorRepo monitorRepo;
-    private final ModelMapper modelMapper;
+    private final MonitorService monitorService;
 
     @Autowired
-    public UserService(UserRepo userRepo, MonitorRepo monitorRepo, ModelMapper modelMapper) {
+    public UserService(UserRepo userRepo, MonitorRepo monitorRepo, MonitorService monitorService) {
         this.userRepo = userRepo;
         this.monitorRepo = monitorRepo;
-        this.modelMapper = modelMapper;
+        this.monitorService = monitorService;
     }
 
     private User getCurrentUser() {
@@ -59,10 +58,13 @@ public class UserService {
 
         foundUser.getMonitors().add(newMonitor);
 
+        String monitorId = monitorService.createMonitor(foundUser.getId(), dto.getServerAddress(), dto.getScheduleInterval(), dto.getType());
+        newMonitor.setId(monitorId);
+
         return monitorRepo.save(newMonitor);
     }
 
-    public void deleteMonitor(Integer monitorId){
+    public void deleteMonitor(String monitorId){
 
         Optional<Monitor> optionalMonitor = monitorRepo.findById(monitorId);
 
@@ -71,30 +73,37 @@ public class UserService {
 
         Monitor monitor = optionalMonitor.get();
 
-        if(monitor.getUser().getEmail() != getCurrentUser().getEmail())
+        if(!monitor.getUser().getEmail().equals(getCurrentUser().getEmail()))
             throw new NotFoundException("Invalid monitor ID");
 
+        monitorService.deleteMonitor(monitorId);
+
         monitorRepo.deleteById(monitorId);
+
     }
 
-    public void disableMonitor(Integer monitorId){
+    public void disableMonitor(String monitorId){
 
         Optional<Monitor> optionalMonitor = monitorRepo.findById(monitorId);
 
         if(optionalMonitor.isEmpty())
             throw new NotFoundException("Invalid monitor ID");
+
+        monitorService.disableMonitor(monitorId);
 
         Monitor monitor = optionalMonitor.get();
         monitor.setStatus(false);
         monitorRepo.save(monitor);
     }
 
-    public void enableMonitor(Integer monitorId){
+    public void enableMonitor(String monitorId){
 
         Optional<Monitor> optionalMonitor = monitorRepo.findById(monitorId);
 
         if(optionalMonitor.isEmpty())
             throw new NotFoundException("Invalid monitor ID");
+
+        monitorService.enableMonitor(monitorId);
 
         Monitor monitor = optionalMonitor.get();
         monitor.setStatus(true);

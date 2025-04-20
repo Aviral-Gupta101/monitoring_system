@@ -1,5 +1,6 @@
 package com.aviralgupta.site.monitoring_system.service.monitors;
 
+import com.aviralgupta.site.monitoring_system.util.enums.MonitorStatusEnum;
 import com.aviralgupta.site.monitoring_system.util.pojo.MonitorResult;
 import lombok.Getter;
 import lombok.Setter;
@@ -7,29 +8,29 @@ import java.util.UUID;
 import java.util.concurrent.*;
 
 @Getter
-public abstract class AbstractMonitorService {
+public abstract class AbstractMonitor {
 
     protected static ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(10);
 
     private final String id;
-    private final String userId;
+    private final Integer userId;
     private final String serverAddress; // (IPv4/domain)
     private ScheduledFuture<?> scheduledTask = null;
 
     @Setter
-    private boolean isScheduled;
+    private Boolean isScheduled = false; // becomes true when schedule method is called
     @Setter
-    private int scheduledInterval; // seconds
+    private Integer scheduledInterval; // seconds
     @Setter
-    private boolean isDisabled = false;
+    private Boolean isDisabled = false;
 
-    public AbstractMonitorService(String id, String userId, String serverAddress) {
+    public AbstractMonitor(String id, Integer userId, String serverAddress) {
         this.id = id;
         this.userId = userId;
         this.serverAddress = serverAddress;
     }
 
-    public AbstractMonitorService(String userId, String serverAddress) {
+    public AbstractMonitor(Integer userId, String serverAddress) {
         this.id = UUID.randomUUID().toString();
         this.userId = userId;
         this.serverAddress = serverAddress;
@@ -38,12 +39,15 @@ public abstract class AbstractMonitorService {
     public void scheduleOnce(){
 
         scheduledExecutorService.submit(() -> {
-            MonitorResult result = run();
-            notifyResult(result);
+            MonitorStatusEnum status = run();
+            notifyResult(status);
         });
     }
 
     public void schedule(){
+
+        if(scheduledInterval < 5)
+            throw new RuntimeException("Scheduled interval is less than 5");
 
         if(isScheduled)
             return;
@@ -51,8 +55,8 @@ public abstract class AbstractMonitorService {
         isScheduled = true;
 
         this.scheduledTask = scheduledExecutorService.scheduleWithFixedDelay(() -> {
-            MonitorResult result = run();
-            notifyResult(result);
+            MonitorStatusEnum status = run();
+            notifyResult(status);
         }, 0, scheduledInterval, TimeUnit.SECONDS);
     }
 
@@ -67,9 +71,9 @@ public abstract class AbstractMonitorService {
             scheduledTask.cancel(true);
     }
 
-    public void notifyResult(MonitorResult monitorResult){
-        System.out.println(monitorResult);
+    public void notifyResult(MonitorStatusEnum status){
+        System.out.println(new MonitorResult(id, userId, serverAddress, status));
     }
 
-    public abstract MonitorResult run();
+    public abstract MonitorStatusEnum run();
 }
