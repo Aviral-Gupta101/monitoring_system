@@ -1,4 +1,4 @@
-package com.aviralgupta.site.monitoring_system.service;
+package com.aviralgupta.site.monitoring_system.service.controller;
 
 import com.aviralgupta.site.monitoring_system.dto.UserAuthDto;
 import com.aviralgupta.site.monitoring_system.entity.User;

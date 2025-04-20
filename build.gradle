@@ -35,6 +35,8 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     implementation 'jakarta.validation:jakarta.validation-api:3.1.0'
+    // https://mvnrepository.com/artifact/org.modelmapper/modelmapper
+    implementation("org.modelmapper:modelmapper:3.2.2")
 }
 
 tasks.named('test') {

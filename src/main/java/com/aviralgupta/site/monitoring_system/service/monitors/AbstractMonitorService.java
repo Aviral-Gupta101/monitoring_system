@@ -45,10 +45,10 @@ public abstract class AbstractMonitorService {
 
     public void schedule(){
 
-        isScheduled = true;
+        if(isScheduled)
+            return;
 
-        if(scheduledInterval <= 5)
-            throw new RuntimeException("Scheduled interval cannot be less than 5 seconds");
+        isScheduled = true;
 
         this.scheduledTask = scheduledExecutorService.scheduleWithFixedDelay(() -> {
             MonitorResult result = run();
@@ -57,6 +57,9 @@ public abstract class AbstractMonitorService {
     }
 
     public void stopSchedule(){
+
+        if(!isScheduled)
+                return;
 
         isScheduled = false;
 

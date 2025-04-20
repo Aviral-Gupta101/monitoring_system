@@ -1,4 +1,4 @@
-package com.aviralgupta.site.monitoring_system.service;
+package com.aviralgupta.site.monitoring_system.service.security;
 
 import com.aviralgupta.site.monitoring_system.entity.User;
 import com.aviralgupta.site.monitoring_system.repo.UserRepo;

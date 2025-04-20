@@ -14,7 +14,7 @@ public class MonitorResult {
 
     @NonNull
     @NotBlank
-    private String userId; // Email
+    private String userId;
 
     @NonNull
     @NotBlank

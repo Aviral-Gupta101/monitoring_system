@@ -1,7 +1,7 @@
 package com.aviralgupta.site.monitoring_system.controller;
 
 import com.aviralgupta.site.monitoring_system.dto.UserAuthDto;
-import com.aviralgupta.site.monitoring_system.service.AuthService;
+import com.aviralgupta.site.monitoring_system.service.controller.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

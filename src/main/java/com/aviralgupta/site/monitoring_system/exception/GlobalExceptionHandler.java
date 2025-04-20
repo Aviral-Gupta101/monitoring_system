@@ -1,6 +1,7 @@
 package com.aviralgupta.site.monitoring_system.exception;
 
 import com.aviralgupta.site.monitoring_system.exception.custom_exceptions.InvalidUserCredentialsException;
+import com.aviralgupta.site.monitoring_system.exception.custom_exceptions.NotFoundException;
 import com.aviralgupta.site.monitoring_system.exception.custom_exceptions.UserAlreadyExistsException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(UserAlreadyExistsException.class)
     public ResponseEntity<?> userAlreadyExistsExceptionHandler(UserAlreadyExistsException e){
         return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("message", e.getMessage()));
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<?> notFoundExceptionHandler(NotFoundException e){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("message", e.getMessage()));
     }
 
 }
