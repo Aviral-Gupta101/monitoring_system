@@ -5,11 +5,11 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 
 
-public class HttpsMonitorImpl extends AbstractMonitor {
+public class SslMonitorImpl extends AbstractMonitor {
 
     int connectionTimeout = 5 * 1000; // milliseconds
-    
-    public HttpsMonitorImpl(Integer userId, String serverAddress) {
+
+    public SslMonitorImpl(Integer userId, String serverAddress) {
         super(userId, serverAddress);
     }
 
