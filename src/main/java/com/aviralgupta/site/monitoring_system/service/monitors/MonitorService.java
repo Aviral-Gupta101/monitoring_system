@@ -2,6 +2,7 @@ package com.aviralgupta.site.monitoring_system.service.monitors;
 
 import com.aviralgupta.site.monitoring_system.exception.custom_exceptions.MonitorException;
 import com.aviralgupta.site.monitoring_system.util.enums.MonitorTypeEnum;
+import com.aviralgupta.site.monitoring_system.util.factory.MonitorFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -18,18 +19,12 @@ public class MonitorService {
 
     public String createMonitor(int userId, String serverAddress, int scheduleInterval, MonitorTypeEnum type){
 
-        if(type == MonitorTypeEnum.PING){
+        AbstractMonitor monitor = MonitorFactory.getMonitor(type, userId, serverAddress);
+        monitor.setScheduledInterval(scheduleInterval);
+        monitor.schedule();
+        monitorList.add(monitor);
 
-            AbstractMonitor monitor = new DummyMonitorImpl(userId, serverAddress);
-            monitor.setScheduledInterval(scheduleInterval);
-            monitor.schedule();
-
-            monitorList.add(monitor);
-
-            return monitor.getId();
-        }
-
-        throw new MonitorException("Invalid monitor type: " + type);
+        return monitor.getId();
     }
 
     public void deleteMonitor(String monitorId){
