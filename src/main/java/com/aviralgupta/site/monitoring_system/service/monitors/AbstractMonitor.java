@@ -24,12 +24,6 @@ public abstract class AbstractMonitor {
     @Setter
     private Boolean isDisabled = false;
 
-    public AbstractMonitor(String id, Integer userId, String serverAddress) {
-        this.id = id;
-        this.userId = userId;
-        this.serverAddress = serverAddress;
-    }
-
     public AbstractMonitor(Integer userId, String serverAddress) {
         this.id = UUID.randomUUID().toString();
         this.userId = userId;

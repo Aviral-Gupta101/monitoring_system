@@ -8,11 +8,7 @@ import java.net.Socket;
 public class HttpsMonitorImpl extends AbstractMonitor {
 
     int connectionTimeout = 5 * 1000; // milliseconds
-
-    public HttpsMonitorImpl(String id, Integer userId, String serverAddress) {
-        super(id, userId, serverAddress);
-    }
-
+    
     public HttpsMonitorImpl(Integer userId, String serverAddress) {
         super(userId, serverAddress);
     }
