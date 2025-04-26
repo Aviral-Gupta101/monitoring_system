@@ -30,7 +30,13 @@ public class UserService {
 
     private User getCurrentUser() {
         String currentUserEmail = GetPrincipalUser.getCurrentUserEmail();
-        return userRepo.findByEmail(currentUserEmail).get();
+        Optional<User> optionalUser = userRepo.findByEmail(currentUserEmail);
+
+        if(optionalUser.isEmpty()) {
+            throw new NotFoundException("Principle email exists but not present in DB");
+        }
+
+        return optionalUser.get();
     }
 
     public List<Monitor> getAllMonitor(){
