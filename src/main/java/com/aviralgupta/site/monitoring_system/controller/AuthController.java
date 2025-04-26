@@ -12,8 +12,11 @@ import java.util.Map;
 @RequestMapping("/auth")
 public class AuthController {
 
-    @Autowired
-    AuthService authService;
+    private final AuthService authService;
+
+    public AuthController(AuthService authService) {
+        this.authService = authService;
+    }
 
     @GetMapping("/me")
     public ResponseEntity<?> getUser(){
@@ -25,5 +28,12 @@ public class AuthController {
 
         authService.signup(userAuthDto);
         return ResponseEntity.ok(Map.of("message", "User account created"));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@Valid @RequestBody UserAuthDto userAuthDto){
+
+        String token = authService.login(userAuthDto);
+        return ResponseEntity.ok(Map.of("token", token));
     }
 }
