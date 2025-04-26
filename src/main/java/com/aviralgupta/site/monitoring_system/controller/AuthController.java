@@ -2,6 +2,7 @@ package com.aviralgupta.site.monitoring_system.controller;
 
 import com.aviralgupta.site.monitoring_system.dto.UserAuthDto;
 import com.aviralgupta.site.monitoring_system.service.controller.AuthService;
+import com.aviralgupta.site.monitoring_system.util.GetPrincipalUser;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,8 @@ public class AuthController {
 
     @GetMapping("/me")
     public ResponseEntity<?> getUser(){
-        return ResponseEntity.ok(Map.of("message", "user is authenticated"));
+        String currentUserEmail = GetPrincipalUser.getCurrentUserEmail();
+        return ResponseEntity.ok(Map.of("message", "user is authenticated : " + currentUserEmail));
     }
 
     @PostMapping("/signup")
