@@ -58,7 +58,7 @@ public class UserService {
 
         foundUser.getMonitors().add(newMonitor);
 
-        String monitorId = monitorService.createMonitor(foundUser.getId(), dto.getServerAddress(), dto.getScheduleInterval(), dto.getType());
+        String monitorId = monitorService.createMonitor(foundUser.getId(), dto);
         newMonitor.setId(monitorId);
 
         return monitorRepo.save(newMonitor);

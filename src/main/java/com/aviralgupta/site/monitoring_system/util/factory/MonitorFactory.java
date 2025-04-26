@@ -1,15 +1,15 @@
 package com.aviralgupta.site.monitoring_system.util.factory;
 
 import com.aviralgupta.site.monitoring_system.service.monitors.AbstractMonitor;
-import com.aviralgupta.site.monitoring_system.service.monitors.SslMonitorImpl;
+import com.aviralgupta.site.monitoring_system.service.monitors.PortCheckMonitorImpl;
 import com.aviralgupta.site.monitoring_system.util.enums.MonitorTypeEnum;
 
 public class MonitorFactory {
 
-    public static AbstractMonitor getMonitor(MonitorTypeEnum type, Integer userId, String serverAddress) {
+    public static AbstractMonitor getMonitor(Integer userId, String serverAddress, MonitorTypeEnum type) {
 
-        if(type == MonitorTypeEnum.SSL)
-            return new SslMonitorImpl(userId, serverAddress);
+        if(type == MonitorTypeEnum.PORT_CHECK)
+            return new PortCheckMonitorImpl(userId, serverAddress);
 
         throw new RuntimeException("Monitor type not defined, in factory method");
     }

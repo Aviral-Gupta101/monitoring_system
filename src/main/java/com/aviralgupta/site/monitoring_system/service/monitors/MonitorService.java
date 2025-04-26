@@ -1,5 +1,6 @@
 package com.aviralgupta.site.monitoring_system.service.monitors;
 
+import com.aviralgupta.site.monitoring_system.dto.MonitorDto;
 import com.aviralgupta.site.monitoring_system.exception.custom_exceptions.MonitorException;
 import com.aviralgupta.site.monitoring_system.util.enums.MonitorTypeEnum;
 import com.aviralgupta.site.monitoring_system.util.factory.MonitorFactory;
@@ -17,10 +18,14 @@ public class MonitorService {
         this.monitorList = monitorList;
     }
 
-    public String createMonitor(int userId, String serverAddress, int scheduleInterval, MonitorTypeEnum type){
+    public String createMonitor(int userId, MonitorDto dto){
 
-        AbstractMonitor monitor = MonitorFactory.getMonitor(type, userId, serverAddress);
-        monitor.setScheduledInterval(scheduleInterval);
+        AbstractMonitor monitor = MonitorFactory.getMonitor(userId, dto.getServerAddress(), dto.getType());
+
+        if(dto.getType() == MonitorTypeEnum.PORT_CHECK)
+            monitor.setPort(dto.getPort());
+
+        monitor.setScheduledInterval(dto.getScheduleInterval());
         monitor.schedule();
         monitorList.add(monitor);
 

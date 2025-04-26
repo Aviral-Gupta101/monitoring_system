@@ -23,6 +23,8 @@ public abstract class AbstractMonitor {
     private Integer scheduledInterval; // seconds
     @Setter
     private Boolean isDisabled = false;
+    @Setter
+    private Integer port;
 
     public AbstractMonitor(Integer userId, String serverAddress) {
         this.id = UUID.randomUUID().toString();
