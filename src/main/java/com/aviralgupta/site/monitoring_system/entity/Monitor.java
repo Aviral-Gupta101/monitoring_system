@@ -24,6 +24,9 @@ public class Monitor {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Column(name = "name", nullable = false)
+    private String name;
+
     @Column(name = "server_address", nullable = false)
     private String serverAddress;
 

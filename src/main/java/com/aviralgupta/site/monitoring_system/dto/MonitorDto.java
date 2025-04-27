@@ -16,6 +16,10 @@ public class MonitorDto {
 
     @NotNull
     @NotBlank
+    private String name;
+
+    @NotNull
+    @NotBlank
     private String serverAddress;
 
     @NotNull
