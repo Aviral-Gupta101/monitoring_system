@@ -26,8 +26,7 @@ public class MonitorService {
             monitor.setPort(dto.getPort());
 
         else if(dto.getType() == MonitorTypeEnum.HTTP_CHECK){
-            HttpCheckMonitorImpl monitor1 = (HttpCheckMonitorImpl) monitor;
-            monitor1.setHttps(dto.getHttps());
+             ((HttpCheckMonitorImpl) monitor).setHttps(dto.getHttps());
         }
         monitor.setScheduledInterval(dto.getScheduleInterval());
         monitor.schedule();
