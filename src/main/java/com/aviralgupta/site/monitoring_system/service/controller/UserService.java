@@ -8,6 +8,7 @@ import com.aviralgupta.site.monitoring_system.repo.MonitorRepo;
 import com.aviralgupta.site.monitoring_system.repo.UserRepo;
 import com.aviralgupta.site.monitoring_system.service.monitors.MonitorService;
 import com.aviralgupta.site.monitoring_system.util.GetPrincipalUser;
+import com.aviralgupta.site.monitoring_system.util.enums.MonitorStatusEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
@@ -53,6 +54,9 @@ public class UserService {
                 .user(foundUser)
                 .name(dto.getName())
                 .type(dto.getType())
+                .monitorStatus(MonitorStatusEnum.UNKNOWN)
+                .isHttps(dto.getHttps())
+                .port(dto.getPort())
                 .serverAddress(dto.getServerAddress())
                 .ScheduleInterval(dto.getScheduleInterval())
                 .status(true)

@@ -1,5 +1,8 @@
 package com.aviralgupta.site.monitoring_system.service.monitors;
 
+import com.aviralgupta.site.monitoring_system.entity.Monitor;
+import com.aviralgupta.site.monitoring_system.exception.custom_exceptions.NotFoundException;
+import com.aviralgupta.site.monitoring_system.repo.MonitorRepo;
 import com.aviralgupta.site.monitoring_system.repo.UserRepo;
 import com.aviralgupta.site.monitoring_system.socket.SocketService;
 import com.aviralgupta.site.monitoring_system.util.SpringContextHolder;
@@ -11,6 +14,8 @@ import lombok.Setter;
 import org.apache.catalina.core.ApplicationContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.*;
 
@@ -24,8 +29,9 @@ public abstract class AbstractMonitor {
     private final String serverAddress; // (IPv4/domain)
     private final SocketService socketService = SpringContextHolder.getBean(SocketService.class);
     private final UserRepo userRepo = SpringContextHolder.getBean(UserRepo.class);
+    private final MonitorRepo monitorRepo = SpringContextHolder.getBean(MonitorRepo.class);
     private ScheduledFuture<?> scheduledTask = null;
-    private String userEmail;
+    private final String userEmail;
 
     @Setter
     private Boolean isScheduled = false; // becomes true when schedule method is called
@@ -78,7 +84,22 @@ public abstract class AbstractMonitor {
             scheduledTask.cancel(true);
     }
 
+    private void updateMonitorStatusInDB(MonitorStatusEnum status){
+        Optional<Monitor> foundMonitor = monitorRepo.findById(id);
+
+        if(foundMonitor.isEmpty())
+            throw new NotFoundException("Monitor with id " + id + " not found");
+
+        Monitor monitor = foundMonitor.get();
+        monitor.setMonitorStatus(status);
+        monitor.setLastNotifiedAt(LocalDateTime.now());
+
+        monitorRepo.save(monitor);
+    }
+
     public void notifyResult(MonitorStatusEnum status){
+
+        updateMonitorStatusInDB(status);
 
         // TODO: REMOVE THE LOG STATEMENT
         MonitorResult result = new MonitorResult(id, userId, serverAddress, status);

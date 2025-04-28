@@ -1,5 +1,6 @@
 package com.aviralgupta.site.monitoring_system.entity;
 
+import com.aviralgupta.site.monitoring_system.util.enums.MonitorStatusEnum;
 import com.aviralgupta.site.monitoring_system.util.enums.MonitorTypeEnum;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
@@ -47,6 +48,16 @@ public class Monitor {
 
     @Column(name = "last_notified_at")
     private LocalDateTime lastNotifiedAt;
+
+    @Column(name = "monitor_status")
+    private MonitorStatusEnum monitorStatus;
+
+    // OPTIONAL FIELDS SPECIFICS TO TYPE OF THE MONITOR
+    @Column(name = "port")
+    private Integer port;
+
+    @Column(name = "isHttps")
+    private Boolean isHttps;
 
     @PrePersist
     protected void onCreate() {
