@@ -22,17 +22,31 @@ public class MonitorService {
 
         AbstractMonitor monitor = MonitorFactory.getMonitor(userId, dto.getServerAddress(), dto.getType());
 
+        setupMonitor(dto, monitor);
+
+        return monitor.getId();
+    }
+
+    public String createMonitor(String monitorId, int userId, MonitorDto dto){
+
+        AbstractMonitor monitor = MonitorFactory.getMonitor(monitorId, userId, dto.getServerAddress(), dto.getType());
+
+        setupMonitor(dto, monitor);
+
+        return monitor.getId();
+    }
+
+    private void setupMonitor(MonitorDto dto, AbstractMonitor monitor) {
+
         if(dto.getType() == MonitorTypeEnum.PORT_CHECK)
             monitor.setPort(dto.getPort());
 
         else if(dto.getType() == MonitorTypeEnum.HTTP_CHECK){
-             ((HttpCheckMonitorImpl) monitor).setHttps(dto.getHttps());
+            ((HttpCheckMonitorImpl) monitor).setHttps(dto.getHttps());
         }
         monitor.setScheduledInterval(dto.getScheduleInterval());
         monitor.schedule();
         monitorList.add(monitor);
-
-        return monitor.getId();
     }
 
     public void deleteMonitor(String monitorId){

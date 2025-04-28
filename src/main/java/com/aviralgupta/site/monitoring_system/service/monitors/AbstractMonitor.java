@@ -49,6 +49,13 @@ public abstract class AbstractMonitor {
         this.userEmail = userRepo.findById(userId).get().getEmail();
     }
 
+    public AbstractMonitor(String monitorId, Integer userId, String serverAddress) {
+        this.id = monitorId;
+        this.userId = userId;
+        this.serverAddress = serverAddress;
+        this.userEmail = userRepo.findById(userId).get().getEmail();
+    }
+
     public void scheduleOnce(){
 
         scheduledExecutorService.submit(() -> {

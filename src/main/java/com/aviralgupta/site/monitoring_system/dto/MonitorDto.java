@@ -2,17 +2,21 @@ package com.aviralgupta.site.monitoring_system.dto;
 
 import com.aviralgupta.site.monitoring_system.util.enums.MonitorTypeEnum;
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.commons.validator.routines.DomainValidator;
 import org.apache.commons.validator.routines.InetAddressValidator;
 
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class MonitorDto {
 
-    private Integer id;
+    private String id;
 
     @NotNull
     @NotBlank

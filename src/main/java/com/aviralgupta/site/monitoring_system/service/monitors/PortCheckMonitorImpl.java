@@ -13,6 +13,10 @@ public class PortCheckMonitorImpl extends AbstractMonitor {
         super(userId, serverAddress);
     }
 
+    public PortCheckMonitorImpl(String monitorId, Integer userId, String serverAddress) {
+        super(monitorId, userId, serverAddress);
+    }
+
     @Override
     public MonitorStatusEnum run() {
 

@@ -17,9 +17,12 @@ public class HttpCheckMonitorImpl extends AbstractMonitor {
 
     public HttpCheckMonitorImpl(Integer userId, String serverAddress) {
         super(userId, serverAddress);
-
         this.restTemplate = new RestTemplate();
+    }
 
+    public HttpCheckMonitorImpl(String monitorId, Integer userId, String serverAddress) {
+        super(monitorId, userId, serverAddress);
+        this.restTemplate = new RestTemplate();
     }
 
     @Override

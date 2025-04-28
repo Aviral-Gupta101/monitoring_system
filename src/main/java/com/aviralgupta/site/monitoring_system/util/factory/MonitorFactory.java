@@ -17,4 +17,15 @@ public class MonitorFactory {
 
         throw new RuntimeException("Monitor type not defined, in factory method");
     }
+
+    public static AbstractMonitor getMonitor(String monitorId, Integer userId, String serverAddress, MonitorTypeEnum type) {
+
+        if(type == MonitorTypeEnum.PORT_CHECK)
+            return new PortCheckMonitorImpl(monitorId, userId, serverAddress);
+
+        else if(type == MonitorTypeEnum.HTTP_CHECK)
+            return new HttpCheckMonitorImpl(monitorId, userId, serverAddress);
+
+        throw new RuntimeException("Monitor type not defined, in factory method");
+    }
 }
