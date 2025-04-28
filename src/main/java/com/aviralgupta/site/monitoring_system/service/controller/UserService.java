@@ -51,6 +51,7 @@ public class UserService {
 
         Monitor newMonitor = Monitor.builder()
                 .user(foundUser)
+                .name(dto.getName())
                 .type(dto.getType())
                 .serverAddress(dto.getServerAddress())
                 .ScheduleInterval(dto.getScheduleInterval())

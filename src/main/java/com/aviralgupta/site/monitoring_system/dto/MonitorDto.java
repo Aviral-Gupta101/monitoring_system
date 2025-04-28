@@ -32,6 +32,8 @@ public class MonitorDto {
     @Max(value = 65535, message = "Min value of port is 65535")
     private Integer port;
 
+    private Boolean https;
+
     @AssertTrue(message = "serverAddress must be a valid IPv4 address or domain name")
     public boolean isServerAddressValid() {
         if (serverAddress == null || serverAddress.isBlank()) return true; // let @NotBlank handle this
@@ -47,6 +49,15 @@ public class MonitorDto {
 
         if (type == MonitorTypeEnum.PORT_CHECK) {
             return port != null;
+        }
+        return true;
+    }
+
+    @AssertTrue(message = "https field is required")
+    public boolean isHttpsRequired() {
+
+        if (type == MonitorTypeEnum.HTTP_CHECK) {
+            return https != null;
         }
         return true;
     }
