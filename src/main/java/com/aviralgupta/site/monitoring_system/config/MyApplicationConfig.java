@@ -6,7 +6,6 @@ import com.corundumstudio.socketio.SocketIOServer;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +33,9 @@ public class MyApplicationConfig {
         com.corundumstudio.socketio.Configuration config = new com.corundumstudio.socketio.Configuration();
         config.setHostname(socketIoProperties.getHostname());
         config.setPort(socketIoProperties.getPort());
+        config.setOrigin("*");
+        config.setPingInterval(25000); // 25 seconds between pings
+        config.setPingTimeout(60000);  // 60 seconds timeout
         return new SocketIOServer(config);
     }
 }

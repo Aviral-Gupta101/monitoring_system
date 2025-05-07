@@ -45,5 +45,9 @@ public class SocketEventListeners {
         server.addDisconnectListener(client -> {
             System.out.println("Client disconnected: " + client.getSessionId());
         });
+
+        server.addEventListener("join", String.class, (client, data, ackSender) -> {
+            System.out.println("Client sent join event");
+        });
     }
 }
